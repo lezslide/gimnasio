@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" fill="none">
+  <rect width="1400" height="1000" fill="#09100B"/>
+  <rect x="50" y="50" width="1300" height="900" rx="36" fill="#101712"/>
+  <circle cx="250" cy="250" r="190" fill="#52FF7A" fill-opacity="0.16"/>
+  <rect x="180" y="250" width="180" height="500" rx="90" fill="#4A5C4C"/>
+  <rect x="420" y="220" width="180" height="530" rx="90" fill="#607262"/>
+  <rect x="660" y="250" width="180" height="500" rx="90" fill="#3B4B3D"/>
+  <rect x="900" y="230" width="180" height="520" rx="90" fill="#566857"/>
+  <text x="110" y="860" fill="#F5F7F4" font-family="Arial, sans-serif" font-size="58" font-weight="700">Foto de comunidad o clase</text>
+  <text x="110" y="920" fill="#8FA397" font-family="Arial, sans-serif" font-size="28">Grupo entrenando o clase funcional</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" fill="none">
+  <rect width="1400" height="900" fill="#0A0F0B"/>
+  <rect x="70" y="70" width="580" height="760" rx="32" fill="#1B2520"/>
+  <rect x="750" y="70" width="580" height="760" rx="32" fill="#2A1818"/>
+  <rect x="230" y="180" width="260" height="500" rx="130" fill="#556560"/>
+  <rect x="910" y="170" width="260" height="510" rx="130" fill="#A64F43"/>
+  <text x="220" y="760" fill="#F5F7F4" font-family="Arial, sans-serif" font-size="44" font-weight="700">Antes</text>
+  <text x="902" y="760" fill="#F5F7F4" font-family="Arial, sans-serif" font-size="44" font-weight="700">Despues</text>
+  <text x="70" y="60" fill="#8FA397" font-family="Arial, sans-serif" font-size="26">Reemplaza por una imagen de transformacion</text>
+</svg>
