@@ -2883,9 +2883,9 @@ img {
   align-content: start;
   gap: 18px;
   padding: 22px;
-  background: linear-gradient(180deg, #151515 0%, #0f0f10 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.34);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.14);
 }
 
 .portal-brand-card {
@@ -2915,10 +2915,10 @@ img {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
+  background: #ffffff;
+  color: #111827;
   padding: 14px 16px;
   font-size: 0.8rem;
   font-weight: 800;
@@ -2945,38 +2945,48 @@ img {
   align-items: center;
   gap: 10px;
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
+  background: #ffffff;
   padding: 14px 16px;
-  color: #f8fafc;
+  color: #111827;
   font-weight: 700;
   text-align: left;
 }
 
 .portal-side-link.active {
   border-color: rgba(220, 38, 38, 0.38);
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.18), rgba(255, 255, 255, 0.06));
-  color: #ffffff;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(255, 255, 255, 0.96));
+  color: #991b1b;
   box-shadow: 0 12px 24px rgba(220, 38, 38, 0.12);
 }
 
 .portal-side-note {
   padding: 18px;
   border-radius: 22px;
-  background: #111827;
-  color: #f9fafb;
+  background: #eff6ff;
+  color: #0f172a;
 }
 
 .portal-side-note p {
-  color: rgba(249, 250, 251, 0.72);
+  color: #475569;
 }
 
 .portal-logout {
   justify-content: center;
   margin-top: auto;
-  background: #111827;
-  color: #ffffff;
+  background: #eff6ff;
+  color: #0f172a;
+}
+
+.portal-sidebar .portal-brand-card strong,
+.portal-sidebar .portal-side-group small,
+.portal-sidebar .portal-side-note small {
+  color: #111827;
+}
+
+.portal-sidebar .portal-brand-card p {
+  color: #475569;
 }
 
 .portal-main {
