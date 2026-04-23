@@ -2857,6 +2857,20 @@ img {
     linear-gradient(180deg, #7f1d1d 0%, #b91c1c 55%, #dc2626 100%);
 }
 
+.portal-mode .client-kicker,
+.portal-mode .portal-header h1,
+.portal-mode .portal-brand-card strong,
+.portal-mode .portal-side-group small,
+.portal-mode .portal-side-note small {
+  color: #ffffff;
+}
+
+.portal-mode .portal-header p,
+.portal-mode .portal-brand-card p,
+.portal-mode .portal-side-note p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
 .portal-shell {
   grid-template-columns: 300px minmax(0, 1fr);
   min-height: calc(100vh - 48px);
