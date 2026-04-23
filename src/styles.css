@@ -2174,6 +2174,12 @@ img {
   min-height: 78px;
 }
 
+.client-nav-brand-shell {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .client-brand {
   font-size: 1.8rem;
   font-weight: 900;
@@ -2197,6 +2203,14 @@ img {
 
 .client-brand-logo:hover {
   transform: scale(1.035);
+}
+
+.client-brand-caption {
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .client-brand-logo::after {
@@ -2339,6 +2353,40 @@ img {
   margin-top: 24px;
 }
 
+.client-hero-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.client-hero-stat {
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 18px 42px rgba(15, 15, 15, 0.06);
+}
+
+.client-hero-stat strong,
+.client-hero-stat span {
+  display: block;
+}
+
+.client-hero-stat strong {
+  margin-bottom: 6px;
+  font-size: 1.2rem;
+  letter-spacing: -0.05em;
+}
+
+.client-hero-stat span {
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .client-hero-visual {
   position: relative;
 }
@@ -2377,6 +2425,18 @@ img {
   font-size: 0.76rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.client-hero-orb {
+  position: absolute;
+  top: -26px;
+  right: -18px;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.28) 0%, rgba(220, 38, 38, 0.08) 42%, transparent 72%);
+  pointer-events: none;
+  filter: blur(6px);
 }
 
 .client-benefits,
@@ -4307,6 +4367,174 @@ img {
   font-weight: 800;
 }
 
+.portal-mode .portal-sidebar,
+.portal-mode .portal-summary-card,
+.portal-mode .portal-panel,
+.portal-mode .portal-insight-card,
+.portal-mode .portal-action-item,
+.portal-mode .portal-member-card,
+.portal-mode .portal-finance-card,
+.portal-mode .portal-nutrition-item,
+.portal-mode .portal-product-card,
+.portal-mode .portal-class-card,
+.portal-mode .portal-task-card,
+.portal-mode .portal-routine-item,
+.portal-mode .portal-routine-editor,
+.portal-mode .portal-chat-message,
+.portal-mode .portal-feature-card,
+.portal-mode .portal-day-switcher,
+.portal-mode .portal-select-field select,
+.portal-mode .portal-note-field textarea,
+.portal-mode .portal-note-field input,
+.portal-mode .portal-note-field select,
+.portal-mode .portal-routine-editor select,
+.portal-mode .portal-upload-button,
+.portal-mode .portal-inline-feedback,
+.portal-mode .portal-empty-state,
+.portal-mode .portal-data-status,
+.portal-mode .portal-section-intro,
+.portal-mode .portal-side-note,
+.portal-mode .portal-side-toggle,
+.portal-mode .portal-side-link,
+.portal-mode .portal-logout,
+.portal-mode .portal-profile-card {
+  background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(127, 29, 29, 0.24);
+}
+
+.portal-mode .portal-panel-spotlight,
+.portal-mode .portal-live-surface,
+.portal-mode .portal-finance-card.emphasis,
+.portal-mode .portal-insight-card.primary,
+.portal-mode .portal-action-item-detailed.is-highlighted,
+.portal-mode .portal-action-item.selectable.selected,
+.portal-mode .portal-class-card-rich {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  box-shadow: 0 20px 44px rgba(127, 29, 29, 0.28);
+}
+
+.portal-mode .portal-summary-icon,
+.portal-mode .portal-role-chip,
+.portal-mode .portal-type-pill,
+.portal-mode .portal-seat-pill,
+.portal-mode .portal-status-badge,
+.portal-mode .portal-upload-list small,
+.portal-mode .portal-routine-badges span {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.portal-mode .portal-status-badge.success,
+.portal-mode .portal-status-badge.muted,
+.portal-mode .portal-status-badge.danger {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.portal-mode .portal-header p,
+.portal-mode .portal-page-hero p,
+.portal-mode .portal-action-item p,
+.portal-mode .portal-qr-card p,
+.portal-mode .portal-coach-meta span,
+.portal-mode .portal-summary-card small,
+.portal-mode .portal-brand-card p,
+.portal-mode .portal-side-note p,
+.portal-mode .portal-member-card span,
+.portal-mode .portal-profile-head span,
+.portal-mode .portal-profile-meta span,
+.portal-mode .portal-request-meta,
+.portal-mode .portal-chart-legend span,
+.portal-mode .portal-note-field span,
+.portal-mode .portal-select-field span,
+.portal-mode .portal-day-label small,
+.portal-mode .portal-meta-line span,
+.portal-mode .portal-class-card p,
+.portal-mode .portal-class-card span,
+.portal-mode .portal-task-card p,
+.portal-mode .portal-task-card small,
+.portal-mode .portal-chat-meta span,
+.portal-mode .portal-routine-item span,
+.portal-mode .portal-nutrition-item p,
+.portal-mode .portal-nutrition-item span,
+.portal-mode .portal-product-card p,
+.portal-mode .portal-product-card small,
+.portal-mode .portal-section-intro span,
+.portal-mode .portal-data-status small,
+.portal-mode .portal-inline-feedback,
+.portal-mode .portal-empty-state {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.portal-mode .portal-panel-head strong,
+.portal-mode .portal-brand-card strong,
+.portal-mode .portal-insight-card strong,
+.portal-mode .portal-summary-card strong,
+.portal-mode .portal-header h1,
+.portal-mode .portal-page-hero h1,
+.portal-mode .portal-action-item strong,
+.portal-mode .portal-qr-card strong,
+.portal-mode .portal-class-card strong,
+.portal-mode .portal-task-card strong,
+.portal-mode .portal-team-task-column > strong,
+.portal-mode .portal-finance-card strong,
+.portal-mode .portal-live-hero strong,
+.portal-mode .portal-live-stat strong {
+  color: #ffffff;
+}
+
+.portal-mode .portal-mini-button,
+.portal-mode .portal-mini-button.dark,
+.portal-mode .portal-whatsapp-button,
+.portal-mode .portal-mini-button-link,
+.portal-mode .portal-icon-button {
+  background: #ffffff;
+  color: #b91c1c;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.portal-mode .portal-chat-message.is-self,
+.portal-mode .portal-live-hero,
+.portal-mode .portal-live-mini-card,
+.portal-mode .portal-qr-card,
+.portal-mode .portal-routine-step {
+  background: #7f1d1d;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.portal-mode .portal-chat-form input,
+.portal-mode .portal-routine-editor input {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.portal-mode .portal-chat-form input::placeholder,
+.portal-mode .portal-routine-editor input::placeholder,
+.portal-mode .portal-note-field textarea::placeholder,
+.portal-mode .portal-note-field input::placeholder {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.portal-mode .owner-chart-grid-line {
+  stroke: rgba(255, 255, 255, 0.16);
+}
+
+.portal-mode .owner-chart-line.income,
+.portal-mode .owner-chart-point.income,
+.portal-mode .owner-chart-line.retention,
+.portal-mode .owner-chart-point.retention,
+.portal-mode .portal-chart-legend i.income,
+.portal-mode .portal-chart-legend i.retention {
+  stroke: #ffffff;
+  fill: #ffffff;
+  background: #ffffff;
+}
+
 .live-list {
   max-height: 420px;
 }
@@ -4689,6 +4917,186 @@ img {
   border: 1px solid rgba(17, 24, 39, 0.08);
   border-radius: 18px;
   background: #f8fafc;
+}
+
+.client-template-elite-fight {
+  background:
+    radial-gradient(circle at top left, rgba(220, 38, 38, 0.08), transparent 24%),
+    linear-gradient(180deg, #ffffff 0%, #fbf6f6 100%);
+  color: #111827;
+}
+
+.client-template-elite-fight .client-demo-bar {
+  background: #ffffff;
+  color: #374151;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.client-template-elite-fight .client-nav {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.client-template-elite-fight .client-brand-logo {
+  padding: 12px 18px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid rgba(220, 38, 38, 0.12);
+  box-shadow: 0 18px 36px rgba(15, 15, 15, 0.08);
+}
+
+.client-template-elite-fight .client-brand-caption,
+.client-template-elite-fight .client-theme-body,
+.client-template-elite-fight .client-story-copy p,
+.client-template-elite-fight .client-section-head p,
+.client-template-elite-fight .client-team-copy p,
+.client-template-elite-fight .client-contact-copy p,
+.client-template-elite-fight .client-benefit-card p,
+.client-template-elite-fight .client-class-feature p,
+.client-template-elite-fight .client-class-row span,
+.client-template-elite-fight .client-membership-card p,
+.client-template-elite-fight .client-faq-item p,
+.client-template-elite-fight .client-contact-points span,
+.client-template-elite-fight .client-contact-form label span,
+.client-template-elite-fight .client-hero-badge span,
+.client-template-elite-fight .client-hero-stat span {
+  color: #6b7280;
+}
+
+.client-template-elite-fight .client-menu-button,
+.client-template-elite-fight .client-nav-link {
+  color: #111827;
+}
+
+.client-template-elite-fight .client-links.open {
+  background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+  border-color: rgba(220, 38, 38, 0.22);
+  color: #ffffff;
+}
+
+.client-template-elite-fight .client-nav-cta {
+  background: #111827;
+  color: #ffffff;
+}
+
+.client-template-elite-fight .client-secondary-button {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(220, 38, 38, 0.18);
+}
+
+.client-template-elite-fight .client-hero {
+  padding: 34px 0 34px;
+}
+
+.client-template-elite-fight .client-hero-grid {
+  padding: 28px;
+  border-radius: 36px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff8f8 100%);
+  border: 1px solid rgba(220, 38, 38, 0.1);
+  box-shadow: 0 28px 72px rgba(15, 15, 15, 0.08);
+}
+
+.client-template-elite-fight .client-theme-title,
+.client-template-elite-fight .client-theme-subtitle,
+.client-template-elite-fight .client-section-head h2,
+.client-template-elite-fight .client-team-copy h2,
+.client-template-elite-fight .client-contact-copy h2 {
+  color: #111827;
+}
+
+.client-template-elite-fight .client-kicker,
+.client-template-elite-fight .client-theme-title span,
+.client-template-elite-fight .client-benefit-card svg,
+.client-template-elite-fight .client-membership-card li svg,
+.client-template-elite-fight .client-class-row small,
+.client-template-elite-fight .client-rating-row strong,
+.client-template-elite-fight .client-stars {
+  color: #dc2626;
+}
+
+.client-template-elite-fight .client-hero-stat,
+.client-template-elite-fight .client-benefit-card,
+.client-template-elite-fight .client-class-feature,
+.client-template-elite-fight .client-class-row,
+.client-template-elite-fight .client-membership-card,
+.client-template-elite-fight .client-faq-item,
+.client-template-elite-fight .client-contact-card,
+.client-template-elite-fight .client-role-card,
+.client-template-elite-fight .client-access-card {
+  background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+  border-color: rgba(220, 38, 38, 0.2);
+  box-shadow: 0 20px 46px rgba(220, 38, 38, 0.18);
+}
+
+.client-template-elite-fight .client-hero-stat strong,
+.client-template-elite-fight .client-benefit-card strong,
+.client-template-elite-fight .client-class-feature strong,
+.client-template-elite-fight .client-class-row strong,
+.client-template-elite-fight .client-membership-card strong,
+.client-template-elite-fight .client-faq-item button,
+.client-template-elite-fight .client-role-card strong,
+.client-template-elite-fight .client-access-head h3 {
+  color: #ffffff;
+}
+
+.client-template-elite-fight .client-primary-button,
+.client-template-elite-fight .client-membership-card.featured button {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.client-template-elite-fight .client-benefit-card p,
+.client-template-elite-fight .client-class-feature p,
+.client-template-elite-fight .client-class-row span,
+.client-template-elite-fight .client-membership-card p,
+.client-template-elite-fight .client-faq-item p,
+.client-template-elite-fight .client-contact-points span,
+.client-template-elite-fight .client-hero-badge span,
+.client-template-elite-fight .client-hero-stat span,
+.client-template-elite-fight .client-role-card p,
+.client-template-elite-fight .client-access-head p,
+.client-template-elite-fight .client-contact-copy p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.client-template-elite-fight .client-class-row small,
+.client-template-elite-fight .client-membership-card li,
+.client-template-elite-fight .client-membership-card li svg,
+.client-template-elite-fight .client-benefit-card svg,
+.client-template-elite-fight .client-rating-row strong,
+.client-template-elite-fight .client-stars,
+.client-template-elite-fight .client-faq-item button,
+.client-template-elite-fight .client-links.open .client-nav-link {
+  color: #ffffff;
+}
+
+.client-template-elite-fight .client-links.open .client-nav-cta {
+  background: #ffffff;
+  color: #b91c1c;
+}
+
+.client-template-elite-fight .client-contact-form input,
+.client-template-elite-fight .client-contact-form textarea,
+.client-template-elite-fight .client-contact-form select,
+.client-template-elite-fight .client-access-card input {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(220, 38, 38, 0.16);
+}
+
+.client-template-elite-fight .client-footer {
+  background: #ffffff;
+  border-top: 1px solid rgba(220, 38, 38, 0.1);
+}
+
+.client-template-elite-fight .client-brand-logo.footer {
+  background: #ffffff;
+}
+
+.client-template-elite-fight .client-footer p,
+.client-template-elite-fight .client-footer-links a {
+  color: #6b7280;
 }
 
 .client-template-titan-neon {
@@ -5913,6 +6321,12 @@ img {
     align-items: flex-start;
   }
 
+  .client-nav-brand-shell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
   .client-editor-toggle {
     margin-left: 0;
   }
@@ -5955,6 +6369,10 @@ img {
   .client-access-head h3,
   .portal-header h1 {
     font-size: 2.2rem;
+  }
+
+  .client-hero-stat-grid {
+    grid-template-columns: 1fr;
   }
 
   .portal-header,
