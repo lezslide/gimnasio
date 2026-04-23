@@ -35,6 +35,8 @@ import memberSuccessImage from './assets/images/sample-gym/member-success.jpg';
 import qrAccessImage from './assets/images/sample-gym/qr-access.jpg';
 import { hasSupabaseEnv } from './lib/supabase';
 import { loadOwnerMetrics } from './lib/ownerMetrics';
+import { applySiteThemePreset, defaultSiteTheme, loadSiteTheme, saveSiteTheme, siteThemePresets } from './lib/siteTheme';
+import SaasHome from './views/SaasHome';
 
 const CLIENT_NAME = 'Profitness';
 const CLIENT_LOGO_URL =
@@ -1091,7 +1093,7 @@ function MemberNutritionPage() {
       </section>
 
       <section className="portal-content-grid nutrition-layout-grid">
-        <article className="portal-panel">
+        <article className="portal-panel portal-live-sidecard">
           <div className="portal-panel-head">
             <strong>Objetivo y progreso</strong>
             <small>Resumen corporal</small>
@@ -1192,6 +1194,7 @@ function MemberPortalContent({ routine, onOpenNutritionPage, memberProfile = mem
   const [products, setProducts] = useState(productCatalogSeed);
   const reservedCount = classes.filter((item) => item.reserved).length;
   const nextClass = classes.find((item) => item.reserved) ?? classes[0];
+  const reservedClasses = classes.filter((item) => item.reserved);
   const completion = 82 + reservedCount * 2;
   const qrEnabled = memberProfile.membershipStatus === 'paid';
 
@@ -1218,16 +1221,24 @@ function MemberPortalContent({ routine, onOpenNutritionPage, memberProfile = mem
       <PortalSummaryCards items={summary} />
 
       {activeSection === 'dashboard' && (
-      <section className="portal-content-grid" id="member-overview">
-        <article className="portal-panel" id="member-reservations">
+      <section className="portal-content-grid portal-content-grid-app" id="member-overview">
+        <article className="portal-panel portal-panel-spotlight" id="member-reservations">
           <div className="portal-panel-head">
             <strong>Clases y reservas</strong>
             <small>Todo más claro por tipo, horario y profe</small>
           </div>
-          <div className="portal-action-list">
+          <div className="portal-section-intro">
+            <strong>{reservedCount ? `${reservedCount} reservas activas` : 'Aun no reservaste clases'}</strong>
+            <span>{nextClass.name} es la siguiente clase sugerida para mantener continuidad esta semana.</span>
+          </div>
+          <div className="portal-action-list portal-action-list-extended">
             {classes.map((item) => (
-              <div key={item.id} className="portal-action-item">
-                <div>
+              <div key={item.id} className={`portal-action-item portal-action-item-detailed ${item.reserved ? 'is-highlighted' : ''}`}>
+                <div className="portal-action-main">
+                  <div className="portal-action-topline">
+                    <span className="portal-type-pill">{item.type}</span>
+                    <span className="portal-seat-pill">{item.spots} cupos</span>
+                  </div>
                   <strong>{item.name}</strong>
                   <p>{item.type} · {item.schedule} · {item.coach}</p>
                 </div>
@@ -1284,7 +1295,7 @@ function MemberPortalContent({ routine, onOpenNutritionPage, memberProfile = mem
       )}
 
       {activeSection === 'dashboard' && (
-      <section className="portal-panel">
+      <section className="portal-panel portal-panel-spotlight portal-live-surface">
         <div className="portal-panel-head">
           <strong>Rutina en vivo</strong>
           <small>Lo que te dejó tu profesor hoy</small>
@@ -1303,8 +1314,8 @@ function MemberPortalContent({ routine, onOpenNutritionPage, memberProfile = mem
       )}
 
       {activeSection === 'dashboard' && (
-      <section className="portal-content-grid" id="coach-attendance">
-        <article className="portal-panel">
+      <section className="portal-live-shell" id="coach-attendance">
+        <article className="portal-panel portal-panel-spotlight">
           <div className="portal-panel-head">
             <strong>Panel nutrición</strong>
             <small>Plan sugerido de hoy</small>
@@ -1360,15 +1371,19 @@ function MemberPortalContent({ routine, onOpenNutritionPage, memberProfile = mem
       )}
 
       {activeSection === 'reservations' && (
-        <section className="portal-panel" id="member-reservations">
+        <section className="portal-panel portal-panel-spotlight" id="member-reservations">
           <div className="portal-panel-head">
             <strong>Clases y reservas</strong>
             <small>Todo más claro por tipo, horario y profe</small>
           </div>
-          <div className="portal-action-list">
+          <div className="portal-action-list portal-action-list-extended">
             {classes.map((item) => (
-              <div key={item.id} className="portal-action-item">
-                <div>
+              <div key={item.id} className={`portal-action-item portal-action-item-detailed ${item.reserved ? 'is-highlighted' : ''}`}>
+                <div className="portal-action-main">
+                  <div className="portal-action-topline">
+                    <span className="portal-type-pill">{item.type}</span>
+                    <span className="portal-seat-pill">{item.spots} cupos</span>
+                  </div>
                   <strong>{item.name}</strong>
                   <p>{item.type} · {item.schedule} · {item.coach}</p>
                 </div>
@@ -1714,7 +1729,11 @@ function OwnerPortalContent({ leadRequests = [], activeSection = 'overview' }) {
             <strong>Ingresos QR y molinetes</strong>
             <small>Todo lo que pasó en recepción hoy</small>
           </div>
-          <div className="portal-action-list">
+          <div className="portal-section-intro">
+            <strong>{presentCount}/{dayRoster.length} presentes ahora</strong>
+            <span>Selecciona un alumno para marcar asistencia y responder rapido durante el turno.</span>
+          </div>
+          <div className="portal-action-list portal-action-list-extended">
             {accessEvents.map((event) => (
               <div key={event.id} className="portal-action-item">
                 <div>
@@ -2758,10 +2777,10 @@ function CoachPortalContent({ routinesByAthlete, onAddExercise, onUpdateExercise
               <button
                 key={athlete.id}
                 type="button"
-                className={`portal-action-item selectable ${selectedAthleteId === athlete.id ? 'selected' : ''}`}
+                className={`portal-action-item portal-action-item-detailed selectable ${selectedAthleteId === athlete.id ? 'selected is-highlighted' : ''}`}
                 onClick={() => setSelectedAthleteId(athlete.id)}
               >
-                <div className="portal-person-row">
+                <div className="portal-person-row portal-action-main">
                   <ProfileAvatar name={athlete.name} photo={athlete.photo} />
                   <div>
                     <strong>{athlete.name}</strong>
@@ -2831,16 +2850,19 @@ function CoachPortalContent({ routinesByAthlete, onAddExercise, onUpdateExercise
       )}
 
       {activeSection === 'overview' && (
-      <section className="portal-content-grid" id="coach-overview">
-        <article className="portal-panel">
+      <section className="portal-content-grid portal-content-grid-app" id="coach-overview">
+        <article className="portal-panel portal-panel-spotlight">
           <div className="portal-panel-head">
             <strong>Clases del gimnasio</strong>
             <small>Mejor organizadas por tipo, nombre y sala</small>
           </div>
           <div className="portal-class-list">
             {classes.map((item) => (
-              <div key={item.id} className="portal-class-card">
-                <small>{item.type}</small>
+              <div key={item.id} className="portal-class-card portal-class-card-rich">
+                <div className="portal-action-topline">
+                  <small>{item.type}</small>
+                  <span className="portal-seat-pill">{item.enrolled}/{item.capacity}</span>
+                </div>
                 <strong>{item.customName}</strong>
                 <p>{item.coach} · {item.schedule}</p>
                 <span>{item.room} · {item.enrolled}/{item.capacity} lugares</span>
@@ -2888,10 +2910,14 @@ function CoachPortalContent({ routinesByAthlete, onAddExercise, onUpdateExercise
       )}
 
       {activeSection === 'followup' && (
-      <section className="portal-panel" id="coach-followup">
+      <section className="portal-panel portal-panel-spotlight portal-live-surface" id="coach-followup">
         <div className="portal-panel-head">
           <strong>Armado de rutina en vivo</strong>
           <small>{selectedAthlete.name}</small>
+        </div>
+        <div className="portal-section-intro">
+          <strong>{selectedRoutine.length} ejercicios en edicion</strong>
+          <span>Ajusta tipo, ejercicio y carga durante la clase sin mezclarlo con otras secciones del panel.</span>
         </div>
         <div className="portal-class-form">
           <label className="portal-note-field">
@@ -2904,9 +2930,9 @@ function CoachPortalContent({ routinesByAthlete, onAddExercise, onUpdateExercise
           </label>
         </div>
         {!liveAthletes.length && <div className="portal-empty-state">No hay alumnos presentes en el gimnasio ahora mismo.</div>}
-        <div className="portal-routine-list editable">
+        <div className="portal-routine-list editable portal-routine-list-live-edit">
           {selectedRoutine.map((exercise) => (
-            <div key={exercise.id} className="portal-routine-editor">
+            <div key={exercise.id} className="portal-routine-editor portal-routine-editor-live">
               <select
                 value={exercise.type ?? classTypeOptions[0]}
                 onChange={(event) => handleRoutineTypeChange(exercise.id, event.target.value)}
@@ -3168,6 +3194,8 @@ function ClientPortal({
 }
 
 function GymClientDemo({ onBack }) {
+  const [siteTheme, setSiteTheme] = useState(() => loadSiteTheme());
+  const [editorOpen, setEditorOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState(0);
   const [sent, setSent] = useState(false);
@@ -3263,6 +3291,133 @@ function GymClientDemo({ onBack }) {
   };
 
   const currentRole = portalRoleMap[selectedRole];
+  const themedPlans = clientMemberships.map((plan, index) => ({
+    ...plan,
+    ...(siteTheme.plans?.[index] ?? {}),
+  }));
+  const templateAssets = {
+    'elite-fight': {
+      hero: heroImage,
+      story: gymSpaceImage,
+      classFeature: trainingImage,
+      team: coachesTeamImage,
+    },
+    'titan-neon': {
+      hero: trainingImage,
+      story: memberSuccessImage,
+      classFeature: qrAccessImage,
+      team: gymSpaceImage,
+    },
+    'titan-editorial': {
+      hero: coachesTeamImage,
+      story: heroImage,
+      classFeature: gymSpaceImage,
+      team: nutritionImage,
+    },
+    'iron-arena': {
+      hero: gymSpaceImage,
+      story: trainingImage,
+      classFeature: heroImage,
+      team: memberSuccessImage,
+    },
+    'pulse-studio': {
+      hero: memberSuccessImage,
+      story: nutritionImage,
+      classFeature: coachesTeamImage,
+      team: heroImage,
+    },
+    'obsidian-core': {
+      hero: qrAccessImage,
+      story: coachesTeamImage,
+      classFeature: trainingImage,
+      team: memberSuccessImage,
+    },
+    'urban-motion': {
+      hero: nutritionImage,
+      story: heroImage,
+      classFeature: memberSuccessImage,
+      team: gymSpaceImage,
+    },
+    'apex-strength': {
+      hero: trainingImage,
+      story: qrAccessImage,
+      classFeature: coachesTeamImage,
+      team: heroImage,
+    },
+    'solar-fit': {
+      hero: heroImage,
+      story: memberSuccessImage,
+      classFeature: nutritionImage,
+      team: qrAccessImage,
+    },
+    'zen-club': {
+      hero: nutritionImage,
+      story: gymSpaceImage,
+      classFeature: memberSuccessImage,
+      team: coachesTeamImage,
+    },
+    'forge-pro': {
+      hero: qrAccessImage,
+      story: trainingImage,
+      classFeature: heroImage,
+      team: coachesTeamImage,
+    },
+  };
+  const presetAssets = templateAssets[siteTheme.templateId] || templateAssets['elite-fight'];
+  const activeTemplateAssets = {
+    hero: siteTheme.heroImageUrl || presetAssets.hero,
+    story: siteTheme.storyImageUrl || presetAssets.story,
+    classFeature: siteTheme.classImageUrl || presetAssets.classFeature,
+    team: siteTheme.teamImageUrl || presetAssets.team,
+  };
+
+  const handleThemeFieldChange = (field) => (event) => {
+    const value = event.target.value;
+    setSiteTheme((current) => {
+      const next = { ...current, [field]: value };
+      saveSiteTheme(next);
+      return next;
+    });
+  };
+
+  const handleThemePlanChange = (index, field) => (event) => {
+    const value = event.target.value;
+    setSiteTheme((current) => {
+      const next = {
+        ...current,
+        plans: current.plans.map((plan, planIndex) => (planIndex === index ? { ...plan, [field]: value } : plan)),
+      };
+      saveSiteTheme(next);
+      return next;
+    });
+  };
+
+  const handleResetTheme = () => {
+    setSiteTheme(defaultSiteTheme);
+    saveSiteTheme(defaultSiteTheme);
+  };
+
+  const handleResetImageOverrides = () => {
+    setSiteTheme((current) => {
+      const next = {
+        ...current,
+        heroImageUrl: '',
+        storyImageUrl: '',
+        classImageUrl: '',
+        teamImageUrl: '',
+      };
+      saveSiteTheme(next);
+      return next;
+    });
+  };
+
+  const handleApplyPreset = (presetId) => {
+    setSiteTheme((current) => {
+      const next = applySiteThemePreset(current, presetId);
+      saveSiteTheme(next);
+      return next;
+    });
+  };
 
   const handleAddExercise = (athleteId) => {
     setRoutinesByAthlete((current) => {
@@ -3346,19 +3501,152 @@ function GymClientDemo({ onBack }) {
   }
 
   return (
-    <div className="client-site">
+    <div
+      className={`client-site client-template-${siteTheme.templateId || 'elite-fight'}`}
+      style={{
+        '--primary': siteTheme.primaryColor,
+        '--dark': siteTheme.secondaryColor,
+      }}
+    >
       <div className="client-demo-bar">
         <button type="button" onClick={onBack}>
           <ArrowLeft size={16} />
           Volver a portada
         </button>
         <span>Muestra oficial del gimnasio cliente</span>
+        <button type="button" className="client-editor-toggle" onClick={() => setEditorOpen((current) => !current)}>
+          {editorOpen ? 'Cerrar editor' : 'Editar demo'}
+        </button>
       </div>
+
+      <aside className={`client-theme-editor ${editorOpen ? 'open' : ''}`}>
+        <div className="client-theme-editor-head">
+          <strong>Editor del theme</strong>
+          <button type="button" onClick={() => setEditorOpen(false)}>Cerrar</button>
+        </div>
+        <div className="client-theme-editor-body">
+          <div className="client-theme-presets">
+            {siteThemePresets.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                className={`client-theme-preset ${siteTheme.templateId === preset.id ? 'active' : ''}`}
+                onClick={() => handleApplyPreset(preset.id)}
+              >
+                <strong>{preset.name}</strong>
+                <span>{preset.description}</span>
+              </button>
+            ))}
+          </div>
+          <label>
+            <span>Nombre</span>
+            <input value={siteTheme.siteName} onChange={handleThemeFieldChange('siteName')} />
+          </label>
+          <label>
+            <span>URL del logo</span>
+            <input value={siteTheme.logoUrl} onChange={handleThemeFieldChange('logoUrl')} placeholder="https://..." />
+          </label>
+          <div className="client-theme-section">
+            <div className="client-theme-section-head">
+              <div>
+                <strong>Fotos</strong>
+                <p>Si dejas un campo vacio, la demo usa las imagenes de la plantilla elegida.</p>
+              </div>
+              <button type="button" className="client-theme-reset client-theme-reset-secondary" onClick={handleResetImageOverrides}>
+                Usar fotos del theme
+              </button>
+            </div>
+            <label>
+              <span>Foto principal del hero</span>
+              <input value={siteTheme.heroImageUrl || ''} onChange={handleThemeFieldChange('heroImageUrl')} placeholder="https://..." />
+            </label>
+            <label>
+              <span>Foto de historia</span>
+              <input value={siteTheme.storyImageUrl || ''} onChange={handleThemeFieldChange('storyImageUrl')} placeholder="https://..." />
+            </label>
+            <label>
+              <span>Foto de clases</span>
+              <input value={siteTheme.classImageUrl || ''} onChange={handleThemeFieldChange('classImageUrl')} placeholder="https://..." />
+            </label>
+            <label>
+              <span>Foto del equipo</span>
+              <input value={siteTheme.teamImageUrl || ''} onChange={handleThemeFieldChange('teamImageUrl')} placeholder="https://..." />
+            </label>
+          </div>
+          <div className="client-theme-section">
+            <div className="client-theme-section-head">
+              <div>
+                <strong>Branding</strong>
+                <p>Colores y textos principales del sitio.</p>
+              </div>
+            </div>
+          </div>
+          <div className="client-theme-color-row">
+            <label>
+              <span>Color primario</span>
+              <input type="color" value={siteTheme.primaryColor} onChange={handleThemeFieldChange('primaryColor')} />
+            </label>
+            <label>
+              <span>Color secundario</span>
+              <input type="color" value={siteTheme.secondaryColor} onChange={handleThemeFieldChange('secondaryColor')} />
+            </label>
+          </div>
+          <label>
+            <span>Texto superior del hero</span>
+            <input value={siteTheme.heroKicker} onChange={handleThemeFieldChange('heroKicker')} />
+          </label>
+          <label>
+            <span>Titulo principal</span>
+            <input value={siteTheme.heroTitleLead} onChange={handleThemeFieldChange('heroTitleLead')} />
+          </label>
+          <label>
+            <span>Titulo destacado</span>
+            <input value={siteTheme.heroTitleAccent} onChange={handleThemeFieldChange('heroTitleAccent')} />
+          </label>
+          <label>
+            <span>Texto hero</span>
+            <textarea rows={4} value={siteTheme.heroBody} onChange={handleThemeFieldChange('heroBody')} />
+          </label>
+          <label>
+            <span>Titulo historia</span>
+            <input value={siteTheme.storyTitle} onChange={handleThemeFieldChange('storyTitle')} />
+          </label>
+          <label>
+            <span>Texto historia</span>
+            <textarea rows={4} value={siteTheme.storyBody} onChange={handleThemeFieldChange('storyBody')} />
+          </label>
+          <label>
+            <span>Telefono</span>
+            <input value={siteTheme.contactPhone} onChange={handleThemeFieldChange('contactPhone')} />
+          </label>
+          <label>
+            <span>Email</span>
+            <input value={siteTheme.contactEmail} onChange={handleThemeFieldChange('contactEmail')} />
+          </label>
+          <label>
+            <span>Titulo contacto</span>
+            <input value={siteTheme.contactHeading} onChange={handleThemeFieldChange('contactHeading')} />
+          </label>
+          <label>
+            <span>Boton contacto</span>
+            <input value={siteTheme.contactButtonLabel} onChange={handleThemeFieldChange('contactButtonLabel')} />
+          </label>
+          {siteTheme.plans.map((plan, index) => (
+            <div key={`${plan.name}-${index}`} className="client-theme-plan-card">
+              <strong>Plan {index + 1}</strong>
+              <input value={plan.name} onChange={handleThemePlanChange(index, 'name')} />
+              <input value={plan.price} onChange={handleThemePlanChange(index, 'price')} />
+              <textarea rows={3} value={plan.text} onChange={handleThemePlanChange(index, 'text')} />
+            </div>
+          ))}
+          <button type="button" className="client-theme-reset" onClick={handleResetTheme}>Restaurar preset</button>
+        </div>
+      </aside>
 
       <nav className="client-nav">
         <div className="client-container client-nav-inner">
           <div className="client-brand client-brand-logo">
-            <img src={CLIENT_LOGO_URL} alt={`${CLIENT_NAME} logo`} />
+            <img src={siteTheme.logoUrl || CLIENT_LOGO_URL} alt={`${siteTheme.siteName || CLIENT_NAME} logo`} />
           </div>
 
           <button type="button" className="client-menu-button" onClick={() => setMenuOpen((value) => !value)}>
@@ -3380,12 +3668,17 @@ function GymClientDemo({ onBack }) {
         <section className="client-hero" id="client-inicio">
           <div className="client-container client-hero-grid">
             <div className="client-hero-copy">
-              <span className="client-kicker">Entrenamiento real para personas reales</span>
-              <h1>
+              <span className="client-kicker">{siteTheme.heroKicker}</span>
+              <h1 className="client-theme-title">
+                {siteTheme.heroTitleLead}
+                <span>{siteTheme.heroTitleAccent}</span>
+              </h1>
+              <p className="client-theme-body">{siteTheme.heroBody}</p>
+              <h1 className="client-hidden-copy">
                 Tu mejor versión
                 <span>empieza aquí</span>
               </h1>
-              <p>
+              <p className="client-hidden-copy">
                 {CLIENT_NAME} es un gimnasio pensado para fuerza, recomposición corporal y constancia. Entrena con acompañamiento,
                 clases dinámicas y una comunidad que te ayuda a sostener resultados.
               </p>
@@ -3403,7 +3696,7 @@ function GymClientDemo({ onBack }) {
             </div>
 
             <div className="client-hero-visual">
-              <img src={heroImage} alt="Entrenamiento en Volt Forge" />
+              <img src={activeTemplateAssets.hero} alt={`Hero de ${siteTheme.siteName || CLIENT_NAME}`} />
               <div className="client-hero-badge">
                 <strong>+1200</strong>
                 <span>socios activos</span>
@@ -3427,14 +3720,16 @@ function GymClientDemo({ onBack }) {
         <section className="client-story client-container">
           <div className="client-story-copy">
             <span className="client-kicker">Por qué nos eligen</span>
-            <h2>Un espacio que mezcla entrenamiento serio, seguimiento y una experiencia moderna.</h2>
-            <p>
+            <h2 className="client-theme-subtitle">{siteTheme.storyTitle}</h2>
+            <p className="client-theme-body">{siteTheme.storyBody}</p>
+            <h2 className="client-hidden-copy">Un espacio que mezcla entrenamiento serio, seguimiento y una experiencia moderna.</h2>
+            <p className="client-hidden-copy">
               Aquí no vienes solo a usar máquinas. Vienes a construir hábitos, mejorar tu técnica y sentir que estás
               en un lugar donde entrenar de verdad es más fácil.
             </p>
           </div>
           <div className="client-story-media">
-            <img src={gymSpaceImage} alt="Espacio principal del gimnasio" />
+            <img src={activeTemplateAssets.story} alt={`Espacio de ${siteTheme.siteName || CLIENT_NAME}`} />
           </div>
         </section>
 
@@ -3449,7 +3744,7 @@ function GymClientDemo({ onBack }) {
 
           <div className="client-classes-grid">
             <article className="client-class-feature">
-              <img src={trainingImage} alt="Clase de alta intensidad" />
+              <img src={activeTemplateAssets.classFeature} alt={`Clase destacada de ${siteTheme.siteName || CLIENT_NAME}`} />
               <div>
                 <strong>Entrenamiento funcional</strong>
                 <p>Sesiones intensas para mejorar fuerza, cardio y movilidad en bloques de 45 minutos.</p>
@@ -3480,7 +3775,7 @@ function GymClientDemo({ onBack }) {
           </div>
 
           <div className="client-memberships-grid">
-            {clientMemberships.map((plan) => (
+            {themedPlans.map((plan) => (
               <article key={plan.name} className={`client-membership-card ${plan.featured ? 'featured' : ''}`}>
                 <strong>{plan.name}</strong>
                 <div className="client-membership-price">
@@ -3561,7 +3856,7 @@ function GymClientDemo({ onBack }) {
 
         <section className="client-team client-container">
           <div className="client-team-grid">
-            <img src={coachesTeamImage} alt="Equipo de coaches" />
+            <img src={activeTemplateAssets.team} alt={`Equipo de ${siteTheme.siteName || CLIENT_NAME}`} />
             <div className="client-team-copy">
               <span className="client-kicker">Equipo</span>
               <h2>Coaches que enseñan, corrigen y sostienen el proceso.</h2>
@@ -3609,21 +3904,21 @@ function GymClientDemo({ onBack }) {
           <div className="client-contact-card">
             <div className="client-contact-copy">
               <span className="client-kicker">Empieza hoy</span>
-              <h2>Solicita una clase de prueba y ven a conocer Volt Forge.</h2>
+              <h2>{siteTheme.contactHeading}</h2>
               <div className="client-contact-points">
                 <span>
                   <MapPin size={16} />
-                  <a href={CLIENT_MAPS_URL} target="_blank" rel="noreferrer">
+                  <a href={siteTheme.mapsUrl || CLIENT_MAPS_URL} target="_blank" rel="noreferrer">
                     Ver ubicación en Google Maps
                   </a>
                 </span>
                 <span>
                   <Phone size={16} />
-                  +54 11 4567 1200
+                  {siteTheme.contactPhone}
                 </span>
                 <span>
                   <Mail size={16} />
-                  hola@voltforge.fit
+                  {siteTheme.contactEmail}
                 </span>
               </div>
             </div>
@@ -3654,7 +3949,7 @@ function GymClientDemo({ onBack }) {
                 <textarea value={contactForm.goal} onChange={handleContactFieldChange('goal')} placeholder="¿Qué te gustaría lograr?" rows={4} required />
               </label>
               <button type="submit" className="client-primary-button full">
-                Reservar clase gratis
+                {siteTheme.contactButtonLabel}
               </button>
               {sent && <div className="client-form-success">Listo. Recibimos tu solicitud y te contactamos pronto.</div>}
             </form>
@@ -3666,9 +3961,9 @@ function GymClientDemo({ onBack }) {
         <div className="client-container client-footer-inner">
           <div>
             <div className="client-brand client-brand-logo footer">
-              <img src={CLIENT_LOGO_URL} alt={`${CLIENT_NAME} logo`} />
+              <img src={siteTheme.logoUrl || CLIENT_LOGO_URL} alt={`${siteTheme.siteName || CLIENT_NAME} logo`} />
             </div>
-            <p>{CLIENT_NAME}: entrenamiento con orden, comunidad y una experiencia pensada para sostener resultados.</p>
+            <p>{siteTheme.siteName || CLIENT_NAME}: entrenamiento con orden, comunidad y una experiencia pensada para sostener resultados.</p>
           </div>
           <div className="client-footer-links">
             <a href="https://instagram.com" target="_blank" rel="noreferrer">
@@ -4103,12 +4398,17 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [activeShowcase, setActiveShowcase] = useState(0);
-  const [appView, setAppView] = useState(() => (window.location.hash === '#cliente-demo' ? 'client' : 'marketing'));
+  const getViewFromHash = () => {
+    if (window.location.hash === '#cliente-demo') return 'client';
+    if (window.location.hash === '#landing') return 'marketing';
+    return 'saas';
+  };
+  const [appView, setAppView] = useState(getViewFromHash);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     const handleMouseMove = (event) => setCursorPosition({ x: event.clientX, y: event.clientY });
-    const handleHashChange = () => setAppView(window.location.hash === '#cliente-demo' ? 'client' : 'marketing');
+    const handleHashChange = () => setAppView(getViewFromHash());
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('hashchange', handleHashChange);
@@ -4125,19 +4425,28 @@ function App() {
   };
 
   const scrollToSection = (sectionId) => {
-    if (window.location.hash === '#cliente-demo') {
-      window.location.hash = '';
+    if (window.location.hash === '#cliente-demo' || window.location.hash === '#saas') {
+      window.location.hash = 'landing';
     }
     scrollToElementId(sectionId);
   };
 
   const openMarketing = () => {
-    window.location.hash = '';
+    window.location.hash = 'landing';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const openSaas = () => {
+    window.location.hash = 'saas';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (appView === 'client') {
-    return <GymClientDemo onBack={openMarketing} />;
+    return <GymClientDemo onBack={openSaas} />;
+  }
+
+  if (appView === 'saas') {
+    return <SaasHome onOpenMarketing={openMarketing} onOpenClientDemo={openClientDemo} />;
   }
 
   return (
