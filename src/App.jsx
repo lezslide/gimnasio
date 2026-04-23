@@ -181,12 +181,6 @@ const clientBenefits = [
   { icon: CalendarCheck2, title: 'Clases todos los días', text: 'Horarios pensados para gente que entrena antes o después de trabajar.' },
 ];
 
-const clientHeroStats = [
-  { value: '1200+', label: 'socios activos' },
-  { value: '4.9/5', label: 'resenas reales' },
-  { value: '7 dias', label: 'para probar el ritmo' },
-];
-
 const clientClasses = [
   { name: 'Funcional HIIT', time: 'Lun, Mié y Vie · 19:00', coach: 'Valentina Ruiz' },
   { name: 'Musculación Guiada', time: 'Todos los días · 07:00 a 22:00', coach: 'Mauro Sosa' },
@@ -3651,11 +3645,8 @@ function GymClientDemo({ onBack }) {
 
       <nav className="client-nav">
         <div className="client-container client-nav-inner">
-          <div className="client-nav-brand-shell">
-            <div className="client-brand client-brand-logo">
-              <img src={siteTheme.logoUrl || CLIENT_LOGO_URL} alt={`${siteTheme.siteName || CLIENT_NAME} logo`} />
-            </div>
-            <span className="client-brand-caption">Fuerza, clases y comunidad</span>
+          <div className="client-brand client-brand-logo">
+            <img src={siteTheme.logoUrl || CLIENT_LOGO_URL} alt={`${siteTheme.siteName || CLIENT_NAME} logo`} />
           </div>
 
           <button type="button" className="client-menu-button" onClick={() => setMenuOpen((value) => !value)}>
@@ -3702,14 +3693,6 @@ function GymClientDemo({ onBack }) {
                   Ingresar al portal
                 </button>
               </div>
-              <div className="client-hero-stat-grid">
-                {clientHeroStats.map((item) => (
-                  <div key={item.label} className="client-hero-stat">
-                    <strong>{item.value}</strong>
-                    <span>{item.label}</span>
-                  </div>
-                ))}
-              </div>
             </div>
 
             <div className="client-hero-visual">
@@ -3718,7 +3701,6 @@ function GymClientDemo({ onBack }) {
                 <strong>+1200</strong>
                 <span>socios activos</span>
               </div>
-              <div className="client-hero-orb" aria-hidden="true" />
             </div>
           </div>
         </section>
