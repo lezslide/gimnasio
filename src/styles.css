@@ -2853,9 +2853,8 @@ img {
 
 .portal-mode {
   background:
-    radial-gradient(circle at top right, rgba(220, 38, 38, 0.14), transparent 24%),
-    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.05), transparent 28%),
-    linear-gradient(180deg, #050505 0%, #0f0f10 100%);
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, #7f1d1d 0%, #b91c1c 55%, #dc2626 100%);
 }
 
 .portal-shell {
